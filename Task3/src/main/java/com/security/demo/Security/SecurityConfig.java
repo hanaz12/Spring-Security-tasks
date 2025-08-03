@@ -9,6 +9,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
@@ -22,7 +24,8 @@ public class SecurityConfig {
        http
 
                .authorizeHttpRequests(auth->auth
-                       .requestMatchers("/login").permitAll()
+                       .requestMatchers("/login/**","/logout").permitAll()
+                       .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                        .requestMatchers("/Admin/**").hasRole("ADMIN")
                        .requestMatchers("/User/**").hasRole("USER")
 
@@ -30,10 +33,15 @@ public class SecurityConfig {
                .formLogin(form -> form
                        .loginPage("/login")
                        .loginProcessingUrl("/login")
-                       .defaultSuccessUrl("/after-login", true)  // ← أو أي صفحة انتِ عاوزاها بعد اللوجين
+                       .defaultSuccessUrl("/after-login", true)
                        .permitAll()
                )
-       ;
+               .logout(logout -> logout
+                       .logoutUrl("/logout")
+                       .logoutSuccessUrl("/login?logout")
+                       .permitAll()
+               );
+
        return http.build();
    }
    @Bean
