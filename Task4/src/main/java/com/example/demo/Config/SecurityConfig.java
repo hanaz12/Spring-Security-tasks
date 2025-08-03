@@ -39,14 +39,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/logout", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/logout", "/css/**", "/js/**", "/test/**", "/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults());
+                .formLogin().disable()
+                .logout().disable();
 
         return http.build();
     }
