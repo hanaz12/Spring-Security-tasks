@@ -35,6 +35,34 @@ This repository contains multiple Spring Security practice tasks demonstrating d
 - Used Spring Security’s `SecurityContextHolder` to access authenticated user roles programmatically.
 
 ---
+# 🛡️ Task 4: Database Authentication using UserDetailsService (REST API Based)
+
+This task demonstrates **Database-Based Authentication** using **Spring Security's UserDetailsService**, manual REST login, and role-based access control.
+
+---
+
+## ✅ Features:
+- Custom **UserDetailsService** to load user from **Database**.
+- Manual **REST-based login** endpoint.
+- **BCrypt** password encoding.
+- Role-based URL authorization.
+- **CSRF** and **FormLogin** disabled to allow stateless REST API behavior.
+
+---
+
+## 📂 Endpoints:
+
+| Method | URL          | Description                                    | Auth Required |
+|--------|--------------|------------------------------------------------|---------------|
+| POST   | `/register`   | Register new user                              | ❌ No          |
+| POST   | `/login`      | Login with username/password                  | ❌ No          |
+| GET    | `/secure`     | Secure endpoint requires authentication       | ✅ Yes         |
+| GET    | `/admin/**`   | Requires ADMIN role                           | ✅ Yes         |
+| GET    | `/user/**`    | Requires USER role                            | ✅ Yes         |
+
+---
+
+
 
 ## 🛠️ Tech Stack:
 - Spring Boot
